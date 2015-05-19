@@ -3,7 +3,8 @@ if [ -f /etc/centos-release ] ; then
      DIST=`cat /etc/redhat-release |sed s/\ release.*//`
      PSUEDONAME=`cat /etc/redhat-release | sed s/.*\(// | sed s/\)//`
      REV=`cat /etc/redhat-release | sed s/.*release\ // | sed s/\ .*//`
-     
+fi
+
 echo $DistroBasedOn
 echo $DIST
 echo $PSUEDONAME
