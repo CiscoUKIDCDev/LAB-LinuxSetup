@@ -16,4 +16,23 @@ if [ $DistroBasedOn == "CentOS" ]; then
      sudo yum update -y
      echo "Running Upgrade"
      sudo yum upgrade -y
+     FILE=/etc/sysconfig/selinux
+     echo "Disabling SELinux"
+     echo "Making backup to /tmp/"
+     cp $FILE /tmp
+     cat << EOF > $FILE
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+# enforcing - SELinux security policy is enforced.
+# permissive - SELinux prints warnings instead of enforcing.
+# disabled - SELinux is fully disabled.
+SELINUX=disabled
+# SELINUXTYPE= type of policy in use. Possible values are:
+# targeted - Only targeted network daemons are protected.
+# strict - Full SELinux protection.
+SELINUXTYPE=targeted
+EOF
+     echo "done!"
+     echo "Adding EPEL repository"
+     sudo yum install epel-release -y
 fi
