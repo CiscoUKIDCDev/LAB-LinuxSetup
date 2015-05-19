@@ -51,6 +51,14 @@ SELINUX=disabled
 SELINUXTYPE=targeted
 EOF
      echo "done!"
+     echo "Stopping Network Manager"
+     service NetworkManager stop
+     echo "Disabling Network Manager on reboot"
+     chkconfig NetworkManager off
+     echo "Enabling default network controller"
+     chkconfig network on
+     echo "Starting default network controller"
+     service network start
      echo "Adding EPEL repository"
      sudo yum install epel-release -y
      sed '/\[epel\]/,/enabled=0/ { s/enabled=0/enabled=1/ }' /etc/yum.repos.d/epel.repo -i
