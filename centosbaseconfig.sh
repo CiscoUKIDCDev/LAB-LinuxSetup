@@ -31,6 +31,8 @@ PATH=$PATH:$HOME/bin
 export PATH
 export http_proxy=http://proxy-wsa.esl.cisco.com:80/
 export https_proxy=http://proxy-wsa.esl.cisco.com:80/
+export HTTP_PROXY=http://proxy-wsa.esl.cisco.com:80/
+export HTTPS_PROXY=http://proxy-wsa.esl.cisco.com:80/
 EOF
      echo "Disabling SELinux"
      echo "Making backup to /tmp/"
