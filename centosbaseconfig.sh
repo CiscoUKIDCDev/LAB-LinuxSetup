@@ -67,7 +67,7 @@ EOF
      echo "**Updating packages"
      sudo yum update
      echo "**Installing some base tools"
-     sudo yum install nano wget
+     sudo yum install -y nano wget
      echo "**Installing RDO Juno"
      sudo yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
      echo "**Installing packstack"
