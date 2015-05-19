@@ -29,10 +29,13 @@ fi
 # User specific environment and startup programs
 PATH=$PATH:$HOME/bin
 export PATH
-export http_proxy=http://proxy-wsa.esl.cisco.com:80/
-export https_proxy=http://proxy-wsa.esl.cisco.com:80/
-export HTTP_PROXY=http://proxy-wsa.esl.cisco.com:80/
-export HTTPS_PROXY=http://proxy-wsa.esl.cisco.com:80/
+export http_proxy=http://proxy-wsa.esl.cisco.com:80
+export https_proxy=http://proxy-wsa.esl.cisco.com:80
+export HTTP_PROXY=http://proxy-wsa.esl.cisco.com:80
+export HTTPS_PROXY=http://proxy-wsa.esl.cisco.com:80
+export ftp_proxy=http://proxy-wsa.esl.cisco.com:80
+export FTP_PROXY=http://proxy-wsa.esl.cisco.com:80
+export no_proxy=localhost,10.52.*,172.16.*,192.168.*
 EOF
      echo "Disabling SELinux"
      echo "Making backup to /tmp/"
@@ -64,6 +67,7 @@ EOF
      sed '/\[epel\]/,/enabled=0/ { s/enabled=0/enabled=1/ }' /etc/yum.repos.d/epel.repo -i
      sed '/\[epel-source\]/,/enabled=0/ { s/enabled=0/enabled=1/ }' /etc/yum.repos.d/epel.repo -i
      sed '/\[epel-debuginfo\]/,/enabled=0/ { s/enabled=0/enabled=1/ }' /etc/yum.repos.d/epel.repo -i
+     sed '/\[main\]/,/proxy/ { s@proxy=.*@proxy=http://proxy-wsa.esl.cisco.com:80@ }' /etc/yum.conf -i
      sudo yum update
      sudo yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
      sudo yum install -y openstack-packstack
