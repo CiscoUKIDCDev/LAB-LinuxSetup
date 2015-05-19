@@ -35,4 +35,5 @@ EOF
      echo "done!"
      echo "Adding EPEL repository"
      sudo yum install epel-release -y
+     sudo yum update
 fi
