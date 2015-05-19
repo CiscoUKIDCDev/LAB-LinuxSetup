@@ -11,5 +11,9 @@ echo $PSUEDONAME
 echo $REV
 
 if [ $DistroBasedOn == "CentOS" ]; then
-     echo "HERE"
+     echo "CentOS - Operating System found"
+     echo "Running update"
+     sudo yum update -y
+     echo "Running Upgrade"
+     sudo yum upgrade -y
 fi
