@@ -9,3 +9,7 @@ echo $DistroBasedOn
 echo $DIST
 echo $PSUEDONAME
 echo $REV
+
+if [ $DistroBasedOn == "CentOS" ]; then
+     echo "HERE"
+fi
