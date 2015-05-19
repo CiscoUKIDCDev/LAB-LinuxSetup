@@ -5,11 +5,6 @@ if [ -f /etc/centos-release ] ; then
      REV=`cat /etc/redhat-release | sed s/.*release\ // | sed s/\ .*//`
 fi
 
-echo $DistroBasedOn
-echo $DIST
-echo $PSUEDONAME
-echo $REV
-
 if [ $DistroBasedOn == "CentOS" ]; then
      echo "CentOS - Operating System found"
      echo "Running update"
@@ -53,7 +48,6 @@ SELINUX=disabled
 # strict - Full SELinux protection.
 SELINUXTYPE=targeted
 EOF
-     echo "done!"
      echo "Stopping Network Manager"
      service NetworkManager stop
      echo "Disabling Network Manager on reboot"
@@ -64,12 +58,20 @@ EOF
      service network start
      echo "Adding EPEL repository"
      sudo yum install epel-release -y
+     echo "Enabling new repositories"
      sed '/\[epel\]/,/enabled=0/ { s/enabled=0/enabled=1/ }' /etc/yum.repos.d/epel.repo -i
      sed '/\[epel-source\]/,/enabled=0/ { s/enabled=0/enabled=1/ }' /etc/yum.repos.d/epel.repo -i
      sed '/\[epel-debuginfo\]/,/enabled=0/ { s/enabled=0/enabled=1/ }' /etc/yum.repos.d/epel.repo -i
+     echo "Setting YUM Proxy"
      sed '/\[main\]/,/proxy/ { s@proxy=.*@proxy=http://proxy-wsa.esl.cisco.com:80@ }' /etc/yum.conf -i
+     echo "Updating packages"
      sudo yum update
+     echo "Installing some base tools"
+     sudo yum install nano wget
+     echo "Installing RDO Juno"
      sudo yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-juno/rdo-release-juno-1.noarch.rpm
+     echo "Installing packstack"
      sudo yum install -y openstack-packstack
+     echo "Running packstack"
      packstack --allinone
 fi
