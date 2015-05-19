@@ -16,22 +16,39 @@ if [ $DistroBasedOn == "CentOS" ]; then
      sudo yum update -y
      echo "Running Upgrade"
      sudo yum upgrade -y
-     FILE=/etc/sysconfig/selinux
+     FILE=~/.bash_profile
+     cp $FILE /tmp
+     echo "Setting Proxy"
+     cat << EOF > $FILE
+     # .bash_profile
+
+     # Get the aliases and functions
+     if [ -f ~/.bashrc ]; then
+	     . ~/.bashrc
+     fi
+
+     # User specific environment and startup programs
+     PATH=$PATH:$HOME/bin
+     export PATH
+     export http_proxy=http://proxy-wsa.esl.cisco.com:80/
+     export https_proxy=http://proxy-wsa.esl.cisco.com:80/
+     EOF
      echo "Disabling SELinux"
      echo "Making backup to /tmp/"
+     FILE=/etc/sysconfig/selinux
      cp $FILE /tmp
      cat << EOF > $FILE
-# This file controls the state of SELinux on the system.
-# SELINUX= can take one of these three values:
-# enforcing - SELinux security policy is enforced.
-# permissive - SELinux prints warnings instead of enforcing.
-# disabled - SELinux is fully disabled.
-SELINUX=disabled
-# SELINUXTYPE= type of policy in use. Possible values are:
-# targeted - Only targeted network daemons are protected.
-# strict - Full SELinux protection.
-SELINUXTYPE=targeted
-EOF
+     # This file controls the state of SELinux on the system.
+     # SELINUX= can take one of these three values:
+     # enforcing - SELinux security policy is enforced.
+     # permissive - SELinux prints warnings instead of enforcing.
+     # disabled - SELinux is fully disabled.
+     SELINUX=disabled
+     # SELINUXTYPE= type of policy in use. Possible values are:
+     # targeted - Only targeted network daemons are protected.
+     # strict - Full SELinux protection.
+     SELINUXTYPE=targeted
+     EOF
      echo "done!"
      echo "Adding EPEL repository"
      sudo yum install epel-release -y
