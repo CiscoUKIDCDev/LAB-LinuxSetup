@@ -56,6 +56,11 @@ EOF
      chkconfig network on
      echo "**Starting default network controller"
      service network start
+     echo "**Setting Default Gateway"
+     FILE=/etc/sysconfig/network
+     cat << EOF > $FILE
+GATEWAY=10.52.208.1
+EOF
      echo "**Adding EPEL repository"
      sudo yum install epel-release -y
      echo "**Enabling new repositories"
