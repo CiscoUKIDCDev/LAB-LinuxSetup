@@ -79,4 +79,29 @@ EOF
      sudo yum install -y openstack-packstack
      echo "**Running packstack"
      packstack --allinone
+     FILE=/etc/sysconfig/network-scripts/ifcfg-br-ex
+     cat << EOF > $FILE
+DEVICE=br-ex 
+ONBOOT=yes 
+DEVICETYPE=ovs 
+TYPE=OVSIntPort 
+OVS_BRIDGE=br-ex 
+USERCTL=no 
+BOOTPROTO=none 
+HOTPLUG=no 
+IPADDR=10.52.208.83
+NETMASK=255.255.255.0
+GATEWAY=10.52.208.1
+DNS1=10.52.208.5,144.254.71.184
+DEVICE=ens32
+ONBOOT=yes 
+NETBOOT=yes 
+IPV6INIT=no 
+BOOTPROTO=none 
+NAME=ens32
+DEVICETYPE=ovs 
+TYPE=OVSPort 
+OVS_BRIDGE=br-ex
+EOF
+     sudo service network restart
 fi
