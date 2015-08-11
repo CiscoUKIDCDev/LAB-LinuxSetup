@@ -36,6 +36,11 @@ users:
       - docker
 
 write_files:
+  - path: ~/.wgetrc
+    content: |
+      ftp_proxy=http://proxy.esl.cisco.com:80
+      http_proxy=http://proxy.esl.cisco.com:80
+      https_proxy=http://proxy.esl.cisco.com:80
   - path: /etc/resolv.conf
     content: |
       nameserver 10.52.208.5
@@ -79,7 +84,3 @@ write_files:
       -A INPUT -p icmp --icmp-type 8 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
       -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
       COMMIT
-
-
-
-
