@@ -18,9 +18,9 @@ coreos:
         Name=ens32
 
         [Network]
-        DNS=8.8.8.8
-        Address=10.51.8.49/24
-        Gateway=10.51.8.1
+        Address=10.52.208.29/24
+        Gateway=10.52.208.1
+        DNS=144.254.71.184
   etcd2:
     name: node001
     discovery: https://discovery.etcd.io/468bf19086c5c999ce915ee2be8a3c91
@@ -79,3 +79,7 @@ write_files:
       -A INPUT -p icmp --icmp-type 8 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
       -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
       COMMIT
+
+
+
+
