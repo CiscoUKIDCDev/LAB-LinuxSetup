@@ -24,6 +24,9 @@ coreos:
   etcd2:
     name: node001
     discovery: https://discovery.etcd.io/468bf19086c5c999ce915ee2be8a3c91
+  update:
+    reboot-strategy: best-effort
+
 
 users:
   - name: roporter
@@ -57,6 +60,12 @@ write_files:
       Gateway=10.52.208.1
       DNS=10.52.208.5
       DNS=144.254.71.184
+  - path: /etc/systemd/system/docker.service.d/http-proxy.conf
+    owner: core:core
+    permissions: 0644
+    content: |
+      [Service]
+      Environment="HTTP_PROXY=http://proxy.esl.cisco.com:80"
   - path: /etc/iptables.rules
     permissions: 0644
     content: |
@@ -70,7 +79,3 @@ write_files:
       -A INPUT -p icmp --icmp-type 8 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
       -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
       COMMIT
-
-
-
-
