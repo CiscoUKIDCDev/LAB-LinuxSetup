@@ -1,0 +1,76 @@
+#cloud-config
+
+hostname: UKIDCV-COREOS
+coreos:
+  units:
+    - name: etcd.service
+      command: start
+    - name: etcd2.service
+      command: start
+    - name: fleet.service
+      command: start
+    - name: update-engine.service
+      command: restart
+    - name: 00-eth0.network
+      runtime: true
+      content: |
+        [Match]
+        Name=ens32
+
+        [Network]
+        DNS=8.8.8.8
+        Address=10.51.8.49/24
+        Gateway=10.51.8.1
+  etcd2:
+    name: node001
+    discovery: https://discovery.etcd.io/468bf19086c5c999ce915ee2be8a3c91
+
+users:
+  - name: roporter
+    passwd: $1$F4brSJ56$9hcjDksHurj3mfHIkomhs.
+    groups:
+      - sudo
+      - docker
+
+write_files:
+  - path: /etc/resolv.conf
+    content: |
+      nameserver 10.52.208.5
+      nameserver 144.254.71.184
+  - path: /etc/systemd/system/update-engine.service.d/proxy.conf
+    content: |
+      [Service]
+      Environment=ALL_PROXY=http://proxy.esl.cisco.com:80
+  - path: /etc/motd
+    permissions: 0644
+    owner: root
+    content: |
+      Good news, everyone!
+  - path: /etc/systemd/network/static.network
+    permissions: 0644
+    content: |
+      [Match]
+      Name=ens32
+
+      [Network]
+      Address=10.52.208.29/24
+      Gateway=10.52.208.1
+      DNS=10.52.208.5
+      DNS=144.254.71.184
+  - path: /etc/iptables.rules
+    permissions: 0644
+    content: |
+      *filter
+      :INPUT DROP [0:0]
+      :FORWARD ACCEPT [0:0]
+      :OUTPUT ACCEPT [76:7696]
+      -A INPUT -p tcp -m conntrack --ctstate NEW -m multiport --dports 22 -j ACCEPT
+      -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+      -A INPUT -i lo -j ACCEPT
+      -A INPUT -p icmp --icmp-type 8 -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT
+      -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
+      COMMIT
+
+
+
+
