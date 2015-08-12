@@ -60,6 +60,7 @@ write_files:
       PasswordAuthentication no
       ChallengeResponseAuthentication no
       X11UseLocalhost no
+      X11Forwarding yes
   - path: /etc/motd
     permissions: 0644
     owner: root
