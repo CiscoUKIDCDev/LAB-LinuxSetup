@@ -67,6 +67,10 @@ SCREEN_HEIGHT=960
 SCREEN_DEPTH=24
 GEOMETRY="1200x960x24"
 alias python3='/usr/bin/python3.4'
+alias drm="docker rm -f"
+alias dps="docker ps -a"
+alias drm="docker rmi"
+alias drm="docker images"
 EOF
      fi
      FILE=/etc/hostname
@@ -122,7 +126,7 @@ EOF
      echo "Installing nano ........................"; yum install -y nano &> /dev/null
      echo "Installing xorg-x11-server ............."; yum install -y xorg-x11-server-Xvfb &> /dev/null
      echo "Installing x11vnc ......................"; yum install -y x11vnc &> /dev/null
-     echo "Installing gtk2........................."; yum install -y gtk2 &> /dev/null
+     echo "Installing gtk2 ........................"; yum install -y gtk2 &> /dev/null
      echo "Installing network tools ..............."; yum install -y net-tools &> /dev/null
      echo "Installing python3 ....................."; yum install -y python34.x86_64 &> /dev/null
      echo "Installing xorg-x11-fonts .............."; yum install -y xorg-x11-fonts* &> /dev/null
@@ -137,6 +141,7 @@ EOF
      echo "Installing yum priorities .............."; yum install -y yum-priorities &> /dev/null
      echo "Installing lynx ........................"; yum install -y lynx &> /dev/null
      echo "Installing links ......................."; yum install -y links &> /dev/null
+     echo "Installing docker-compose .............."; curl -L https://github.com/docker/compose/releases/download/1.4.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose &> /dev/null
      echo "Installing Java ........................"; yum install -y java &> /dev/null
      echo "Downloading bar ........................"; wget http://www.theiling.de/downloads/bar-1.4-src.tar.bz2 &> /dev/null
      echo "Extracting bar ........................."; tar xvf bar-1.4-src.tar.bz2 &> /dev/null
@@ -173,9 +178,19 @@ EOF
      echo "Copying fail2ban confiure file ........."; rm $FILE &> /dev/null; cp /etc/fail2ban/jail.conf $FILE &> /dev/null
      echo "Enabling boot to GUI ..................."; ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target &> /dev/null
      echo "Creating alias for Python3 ............."; alias python3='/usr/bin/python3.4'
+     echo "Changing permissions for docker-compose."; chmod +x /usr/local/bin/docker-compose
      #echo "Setting VNC passwd to ${COLOR_RED}secret${COLOR_NC} ..........."; mkdir -p ~/.vnc && x11vnc -storepasswd ${vncpass:-secret} ~/.vnc/passwd &> /dev/null
      
      printf "${COLOR_LIGHT_GREEN}Config Files - Complete${COLOR_NC}\n"
+     
+     
+     printf "==========================${COLOR_LIGHT_PURPLE}Setting aliases${COLOR_NC}============================\n"
+     echo "Setting alias for docker rm -f ........."; alias drm="docker rm -f"
+     echo "Setting alias for docker ps -a ........."; alias dps="docker ps -a"
+     echo "Setting alias for docker rmi ..........."; alias drm="docker rmi"
+     echo "Setting alias for docker images ........"; alias drm="docker images"
+     printf "${COLOR_LIGHT_GREEN}Disabling Services - Complete${COLOR_NC}\n"
+     
      printf "==========================${COLOR_LIGHT_PURPLE}Disabling Services${COLOR_NC}=========================\n"
      echo "Disabling Firewall service .............."; systemctl disable firewalld.service
      printf "${COLOR_LIGHT_GREEN}Disabling Services - Complete${COLOR_NC}\n"
