@@ -1,6 +1,6 @@
 #!/bin/bash
 # sh scriptname IP NETMASK GATEWAY
-# 
+#
 
 HOSTNAME = "ukidcv-centos-roporter"
 
@@ -42,7 +42,7 @@ if [ $DistroBasedOn == "CentOS" ]; then
      printf "${COLOR_YELLOW}Distribution = ${COLOR_NC}${DIST}\n"
      printf "${COLOR_YELLOW}Branch = ${COLOR_NC}${PSUEDONAME}\n"
      printf "${COLOR_YELLOW}OS Revision = ${COLOR_NC}${REV}\n"
-     printf "${COLOR_YELLOW}Kernel Version = ${COLOR_NC}${KERN}\n"   
+     printf "${COLOR_YELLOW}Kernel Version = ${COLOR_NC}${KERN}\n"
      printf "==========================${COLOR_LIGHT_PURPLE}Config Files${COLOR_NC}===============================\n"
      FILE=/etc/environment
      value=$(<$FILE)
@@ -69,8 +69,8 @@ GEOMETRY="1200x960x24"
 alias python3='/usr/bin/python3.4'
 alias drm="docker rm -f"
 alias dps="docker ps -a"
-alias drm="docker rmi"
-alias drm="docker images"
+alias drmi="docker rmi"
+alias dim="docker images"
 EOF
      fi
      FILE=/etc/hostname
@@ -81,7 +81,7 @@ EOF
      cp $FILE /tmp
      echo "Setting SELinux to permissive...........";
      rm -f $FILE
-     cat >> $FILE << EOF 
+     cat >> $FILE << EOF
       # This file controls the state of SELinux on the system.
       # SELINUX= can take one of these three values:
       #     enforcing - SELinux security policy is enforced.
@@ -90,16 +90,16 @@ EOF
       SELINUX=permissive
       # SELINUXTYPE= can take one of these two values:
       #     targeted - Targeted processes are protected,
-      #     minimum - Modification of targeted policy. Only selected processes are protected. 
+      #     minimum - Modification of targeted policy. Only selected processes are protected.
       #     mls - Multi Level Security protection.
-      SELINUXTYPE=targeted 
+      SELINUXTYPE=targeted
 EOF
      FILE=/etc/ssh/sshd_config
      sed -i -e "s/X11Forwarding no/X11Forwarding yes/g" $FILE
      sed -i -e "s/#X11Forwarding yes/X11Forwarding yes/g" $FILE
      sed -i -e "s/#X11DisplayOffset 10/X11DisplayOffset 10/g" $FILE
-     
-     
+
+
      printf "${COLOR_LIGHT_GREEN}Config Files - Complete${COLOR_NC}\n"
      printf "==========================${COLOR_LIGHT_PURPLE}Running Hacks${COLOR_NC}==============================\n"
      echo "Sourcing new environment file..........."; source /etc/environment
@@ -132,7 +132,9 @@ EOF
      echo "Installing xorg-x11-fonts .............."; yum install -y xorg-x11-fonts* &> /dev/null
      echo "Installing Firefox ....................."; yum install -y firefox &> /dev/null
      echo "Installing wget ........................"; yum install -y wget &> /dev/null
-     echo "Installing nmap ........................"; yum install -y nmap &> /dev/null
+     echo "Installing npm ........................."; yum install -y npm &> /dev/null
+     echo "Installing bower ......................."; npm install -g bower &> /dev/null
+     echo "Installing bower-browser ..............."; npm install -g bower-browser &> /dev/null
      echo "Installing ntfs-3g ....................."; yum install -y ntfs-3g &> /dev/null
      echo "Installing vsftpd ......................"; yum install -y vsftpd &> /dev/null
      echo "Installing telnet ......................"; yum install -y telnet &> /dev/null
@@ -149,7 +151,7 @@ EOF
      echo "Tidying up from bar ...................."; rm -Rf bar-1.4; rm bar-1.4-src.tar.bz2 &> /dev/null
      echo "Installing new 4.x kernel .............."; yum --enablerepo=elrepo-kernel install kernel-ml &> /dev/null
      echo "Enabling new kernel as default ........."; grub2-set-default 0
-     
+
      printf "${COLOR_LIGHT_GREEN}Installing - Complete${COLOR_NC}\n"
      printf "==========================${COLOR_LIGHT_PURPLE}Config Files${COLOR_NC}===============================\n"
      echo "Setting timezone ......................."; timedatectl set-timezone Europe/London
@@ -160,41 +162,66 @@ EOF
      sed -i -e "s/write_enable=NO/write_enable=YES/g" $FILE
      sed -i -e "s/chroot_local_user=NO/chroot_local_user=YES/g" $FILE
      sed -i -e "s/#chroot_local_user=YES/chroot_local_user=YES/g" $FILE
-     
+     sed -i -e "s/local_umask=022/local_umask=0002/g" $FILE
+     sed -i -e "s/#anon_upload_enable=YES/anon_upload_enable=YES/g" $FILE
+     sed -i -e "s/#anon_mkdir_write_enable=YES/anon_mkdir_write_enable=YES/g" $FILE
+
+     value=$(cat /etc/vsftpd/vsftpd.conf | grep file_open_mode=0777)
+     if [[ -z "$value" ]]
+       then
+         echo "file_open_mode=0777" >> $FILE
+     fi
+
      value=$(cat /etc/vsftpd/vsftpd.conf | grep allow_writeable_chroot=YES)
      if [[ -z "$value" ]]
        then
          echo "allow_writeable_chroot=YES" >> $FILE
      fi
-     
+
+     echo "Setting bashrc configurations..........."
+     FILE=~/.bashrc
+     value=$(cat ~/.bashrc | grep "source /etc/environment")
+     if [[ -z "$value" ]]
+       then
+         echo "source /etc/environment" >> $FILE
+     fi
+
      echo "Setting wget proxy configurations ......"
      FILE=/etc/wgetrc
      sed -i -e "s,#ftp_proxy = http://proxy.yoyodyne.com:18023/,ftp_proxy = http://proxy.esl.cisco.com:80/,g" $FILE
      sed -i -e "s,#http_proxy = http://proxy.yoyodyne.com:18023/,http_proxy = http://proxy.esl.cisco.com:80/,g" $FILE
      sed -i -e "s,#https_proxy = http://proxy.yoyodyne.com:18023/,https_proxy = http://proxy.esl.cisco.com:80/,g" $FILE
 
-     
      FILE=/etc/fail2ban/jail.local
      echo "Copying fail2ban confiure file ........."; rm $FILE &> /dev/null; cp /etc/fail2ban/jail.conf $FILE &> /dev/null
      echo "Enabling boot to GUI ..................."; ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target &> /dev/null
      echo "Creating alias for Python3 ............."; alias python3='/usr/bin/python3.4'
      echo "Changing permissions for docker-compose."; chmod +x /usr/local/bin/docker-compose
      #echo "Setting VNC passwd to ${COLOR_RED}secret${COLOR_NC} ..........."; mkdir -p ~/.vnc && x11vnc -storepasswd ${vncpass:-secret} ~/.vnc/passwd &> /dev/null
-     
+
+     FILE=/root/.bowerrc
+     echo "{ 'allow_root': true }" >> $FILE
+
      printf "${COLOR_LIGHT_GREEN}Config Files - Complete${COLOR_NC}\n"
-     
-     
+
+     printf "==========================${COLOR_LIGHT_PURPLE}Creating files and folders${COLOR_NC}=================\n"
+     echo "Creating www directory ................."; mkdir /var/www &> /dev/null
+     echo "Setting gid for directory .............."; chmod g+s /var/www
+     echo "Setting default group access ..........."; setfacl -d -m g::rwx /var/www
+     echo "Setting default other group access ....."; setfacl -d -m o::rwx /var/www
+     printf "${COLOR_LIGHT_GREEN}Creating files and folders - Complete${COLOR_NC}\n"
+
      printf "==========================${COLOR_LIGHT_PURPLE}Setting aliases${COLOR_NC}============================\n"
      echo "Setting alias for docker rm -f ........."; alias drm="docker rm -f"
      echo "Setting alias for docker ps -a ........."; alias dps="docker ps -a"
-     echo "Setting alias for docker rmi ..........."; alias drm="docker rmi"
-     echo "Setting alias for docker images ........"; alias drm="docker images"
+     echo "Setting alias for docker rmi ..........."; alias drmi="docker rmi"
+     echo "Setting alias for docker images ........"; alias dim="docker images"
      printf "${COLOR_LIGHT_GREEN}Disabling Services - Complete${COLOR_NC}\n"
-     
+
      printf "==========================${COLOR_LIGHT_PURPLE}Disabling Services${COLOR_NC}=========================\n"
      echo "Disabling Firewall service .............."; systemctl disable firewalld.service
      printf "${COLOR_LIGHT_GREEN}Disabling Services - Complete${COLOR_NC}\n"
-     
+
      printf "==========================${COLOR_LIGHT_PURPLE}Stopping Services${COLOR_NC}==========================\n"
      echo "Stopping Firewall service ..............."; systemctl stop firewalld.service
      printf "${COLOR_LIGHT_GREEN}Stopping Services - Complete${COLOR_NC}\n"
@@ -204,7 +231,7 @@ EOF
      echo "Enabling ntpd .........................."; systemctl enable ntpd &> /dev/null
      echo "Enabling fail2ban ......................"; systemctl enable fail2ban.service &> /dev/null
      printf "${COLOR_LIGHT_GREEN}Enabling Services - Complete${COLOR_NC}\n"
-     
+
      printf "==========================${COLOR_LIGHT_PURPLE}Starting Services${COLOR_NC}==========================\n"
      #echo "Starting VNC for Firefox ..............."; xvfb-run --server-args="$DISPLAY -screen 0 $GEOMETRY -ac +extension RANDR" firefox > /var/log/ui_output.log 2> /var/log/ui_error.log &
      echo "Starting vsftpd ........................"; systemctl restart vsftpd
@@ -216,7 +243,7 @@ EOF
      #echo "Starting VNC ..........................."; x11vnc -forever -usepw -shared -rfbport 5900 -display $DISPLAY
      printf "${COLOR_LIGHT_GREEN}Starting Services - Complete${COLOR_NC}\n"
 
-     
+
   else
     exit 1
 fi
