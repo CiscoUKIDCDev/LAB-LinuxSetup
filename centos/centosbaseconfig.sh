@@ -71,6 +71,9 @@ alias drm="docker rm -f"
 alias dps="docker ps -a"
 alias drmi="docker rmi"
 alias dim="docker images"
+alias ..="cd .."
+PATH=$PATH:~/.composer/vendor/bin
+export PATH
 EOF
      fi
      FILE=/etc/hostname
@@ -133,13 +136,17 @@ EOF
      echo "Installing Firefox ....................."; yum install -y firefox &> /dev/null
      echo "Installing wget ........................"; yum install -y wget &> /dev/null
      echo "Installing npm ........................."; yum install -y npm &> /dev/null
+     echo "Installing git ........................."; yum install -y git &> /dev/null
      echo "Installing bower ......................."; npm install -g bower &> /dev/null
      echo "Installing bower-browser ..............."; npm install -g bower-browser &> /dev/null
+     echo "Installing bower-installer ............."; npm install -g bower-installer &> /dev/null
      echo "Installing ntfs-3g ....................."; yum install -y ntfs-3g &> /dev/null
      echo "Installing vsftpd ......................"; yum install -y vsftpd &> /dev/null
+     echo "Installing composer ...................."; yum install -y composer &> /dev/null
      echo "Installing telnet ......................"; yum install -y telnet &> /dev/null
      echo "Installing fail2ban ...................."; yum install -y fail2ban &> /dev/null
      echo "Installing ntp ........................."; yum install -y ntp &> /dev/null
+     echo "Installing inotify-tools ..............."; yum install -y inotify-tools &> /dev/null
      echo "Installing yum priorities .............."; yum install -y yum-priorities &> /dev/null
      echo "Installing lynx ........................"; yum install -y lynx &> /dev/null
      echo "Installing links ......................."; yum install -y links &> /dev/null
@@ -200,7 +207,10 @@ EOF
      #echo "Setting VNC passwd to ${COLOR_RED}secret${COLOR_NC} ..........."; mkdir -p ~/.vnc && x11vnc -storepasswd ${vncpass:-secret} ~/.vnc/passwd &> /dev/null
 
      FILE=/root/.bowerrc
-     echo "{ 'allow_root': true }" >> $FILE
+     echo "Setting bower customisations ..........."
+     echo '{ "allow_root": true }' > $FILE
+
+     echo "Adjusting git to use HTTPS ............."; git config --global url."https://".insteadOf git://
 
      printf "${COLOR_LIGHT_GREEN}Config Files - Complete${COLOR_NC}\n"
 
