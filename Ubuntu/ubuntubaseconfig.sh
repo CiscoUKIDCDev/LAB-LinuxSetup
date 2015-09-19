@@ -8,9 +8,18 @@ COLOR_NC='\e[0m';COLOR_WHITE='\e[1;37m';COLOR_BLACK='\e[0;30m';COLOR_BLUE='\e[0;
 
 if [ -f /etc/lsb-release ] ; then
     DistroBasedOn='Debian'
-    KernelVersion=$(uname -a | sed -n -r "s/.*([0-9]+\.[0-9]+\.[0-9]+-[0-9]+)[ -]+.*/\1/p")
+    DISTRIB_KERNEL_VERSION=$(uname -a | sed -n -r "s/.*([0-9]+\.[0-9]+\.[0-9]+-[0-9]+)[ -]+.*/\1/p")
     DISTRIB_ID=$(sed -n 's/DISTRIB_ID=//p' /etc/lsb-release)
     DISTRIB_RELEASE=$(sed -n 's/DISTRIB_RELEASE=//p' /etc/lsb-release)
     DISTRIB_CODENAME=$(sed -n 's/DISTRIB_CODENAME=//p' /etc/lsb-release)
 fi
 
+if [ $DistroBasedOn == "Debian" ]; then
+     echo "Debian based - Operating System found.......continuing"
+     printf "==========================${COLOR_LIGHT_PURPLE}OS Information${COLOR_NC}=============================\n"
+     printf "${COLOR_YELLOW}Distribution = ${COLOR_NC}${DISTRIB_ID}\n"
+     printf "${COLOR_YELLOW}Branch = ${COLOR_NC}${DISTRIB_CODENAME}\n"
+     printf "${COLOR_YELLOW}OS Revision = ${COLOR_NC}${DISTRIB_RELEASE}\n"
+     printf "${COLOR_YELLOW}Kernel Version = ${COLOR_NC}${DISTRIB_KERNEL_VERSION}\n"
+     printf "==========================${COLOR_LIGHT_PURPLE}Config Files${COLOR_NC}===============================\n"
+fi
