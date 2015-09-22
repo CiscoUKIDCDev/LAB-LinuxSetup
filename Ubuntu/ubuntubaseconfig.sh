@@ -71,7 +71,6 @@ printf "==========================${COLOR_PURPLE}Installing${COLOR_RESET}=======
      echo "Installing unrar ......................."; apt-get install -y unrar > /dev/null
      echo "Installing nano ........................"; apt-get install -y nano > /dev/null
      echo "Installing network tools ..............."; apt-get install -y net-tools > /dev/null
-     echo "Installing Firefox ....................."; apt-get install -y firefox > /dev/null
      echo "Installing wget ........................"; apt-get install -y wget > /dev/null
      echo "Installing npm ........................."; apt-get install -y npm > /dev/null
      echo "Installing git ........................."; apt-get install -y git > /dev/null
