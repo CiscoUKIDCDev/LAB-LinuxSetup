@@ -171,9 +171,9 @@ printf "==========================${COLOR_PURPLE}Starting Services${COLOR_RESET}
      printf "${COLOR_GREEN}Starting Services - Complete${COLOR_RESET}\n"
 
 printf "==========================${COLOR_PURPLE}Installing Docker${COLOR_RESET}=============================\n"
-     echo "Installing Docker ............"; apt-get install -y docker > /dev/null 2>&1
-     echo "Installing Docker-Engine ....."; apt-get install -y docker-engine > /dev/null 2>&1
-     echo "Starting Docker .............."; systemctl start docker
+     echo "Installing Docker ............"; curl -sSL https://get.docker.com/ | sh > /dev/null 2>&1
+     echo "Starting Docker .............."; systemctl start docker > /dev/null 2>&1
+     echo "Enabling Docker on Start ....."; systemctl enable docker > /dev/null 2>&1
      printf "${COLOR_GREEN}Installing Docker - Complete${COLOR_RESET}\n"
 
 printf "==========================${COLOR_PURPLE}Kernel Upgrade${COLOR_RESET}===============================\n"
