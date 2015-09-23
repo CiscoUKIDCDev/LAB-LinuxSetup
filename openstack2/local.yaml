@@ -5,17 +5,16 @@ enabled_projects:
     - glance
     - keystone
 passwords:
-    admin: s8cr8tp7a550rd
-    rabbit: s8cr8tp7a550rd
-    mysql: s8cr8tp7a550rd
-    service: s8cr8tp7a550rd
-    database: s8cr8tp7a550rd
+    admin: devstack
+    rabbit: devstack
+    mysql: devstack
+    service: devstack
+    database: devstack
 local:
     fixed_range: 10.0.2.0/24
-    service_token: s8cr8tp7a550rd
+    service_token: devstack
     floating_range: 10.0.2.0/24
     fixed_network_size: 256
-    flat_interface: eth1
     screen_logdir: $DEST/logs/screen
     logfile: /home/stack/devstack/stack.log
     ceilometer_backend: mongo
