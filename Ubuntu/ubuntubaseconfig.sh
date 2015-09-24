@@ -75,6 +75,7 @@ printf "==========================${COLOR_PURPLE}Installing${COLOR_RESET}=======
      echo "Installing wget ........................"; apt-get install -y wget > /dev/null
      echo "Installing npm ........................."; apt-get install -y npm > /dev/null
      echo "Installing git ........................."; apt-get install -y git > /dev/null
+     echo "Installing htop ........................"; apt-get install -y htop > /dev/null
      echo "Installing ebtables ...................."; apt-get install -y ebtables > /dev/null 2>&1
      echo "Installing bower ......................."; npm install -g bower > /dev/null 2>&1
      echo "Installing bower-browser ..............."; npm install -g bower-browser > /dev/null 2>&1
