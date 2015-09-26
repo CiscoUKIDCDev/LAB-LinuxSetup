@@ -168,15 +168,15 @@ printf "==========================${COLOR_PURPLE}Enabling Services${COLOR_RESET}
 
 printf "==========================${COLOR_PURPLE}Starting Services${COLOR_RESET}==========================\n"
      echo "Starting vsftpd ........................"; systemctl restart vsftpd
-     echo "Starting ntp .........................."; systemctl restart ntp
+     echo "Starting ntp ..........................."; systemctl restart ntp
      echo "Starting fail2ban ......................"; systemctl restart fail2ban.service
      echo "Restarting sshd ........................"; systemctl restart sshd
      printf "${COLOR_GREEN}Starting Services - Complete${COLOR_RESET}\n"
 
 printf "==========================${COLOR_PURPLE}Installing Docker${COLOR_RESET}=============================\n"
-     echo "Installing Docker ............"; curl -sSL https://get.docker.com/ | sh > /dev/null 2>&1
-     echo "Starting Docker .............."; systemctl start docker > /dev/null 2>&1
-     echo "Enabling Docker on Start ....."; systemctl enable docker > /dev/null 2>&1
+     echo "Installing Docker ......................"; curl -sSL https://get.docker.com/ | sh > /dev/null 2>&1
+     echo "Starting Docker ........................"; systemctl start docker > /dev/null 2>&1
+     echo "Enabling Docker on Start ..............."; systemctl enable docker > /dev/null 2>&1
      printf "${COLOR_GREEN}Installing Docker - Complete${COLOR_RESET}\n"
 
 printf "==========================${COLOR_PURPLE}Kernel Upgrade${COLOR_RESET}===============================\n"
@@ -189,7 +189,7 @@ printf "==========================${COLOR_PURPLE}Kernel Upgrade${COLOR_RESET}===
          echo "Installing new Kernel now .............."; dpkg -i linux-headers-4.1.6*.deb linux-image-4.1.6*.deb > /dev/null 2>&1
      fi
      printf "${COLOR_GREEN}Kernel Upgrade - Complete${COLOR_RESET}\n"
-     echo "Tidying up ..................."; apt-get -y autoremove > /dev/null 2>&1
+     echo "Tidying up ............................."; apt-get -y autoremove > /dev/null 2>&1
 printf "==========================${COLOR_PURPLE}Installation${COLOR_RESET}===============================\n"
 printf "==========================${COLOR_PURPLE}FINISHED${COLOR_RESET}===============================\n"
 printf "==========================${COLOR_RED}REBOOT NOW${COLOR_RESET}===============================\n"
