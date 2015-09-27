@@ -180,15 +180,15 @@ printf "==========================${COLOR_PURPLE}Installing Docker${COLOR_RESET}
      printf "${COLOR_GREEN}Installing Docker - Complete${COLOR_RESET}\n"
 
 printf "==========================${COLOR_PURPLE}Kernel Upgrade${COLOR_RESET}===============================\n"
-     if [ $DISTRIB_KERNEL_VERSION = "4.1.6-040106" ]
-	 then echo "Kernel is already up to date, version = 4.1.6-040106"
-     else
-         echo "Downloading Kernel 4.1.6 headers ......."; wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.1.6-unstable/linux-headers-4.1.6-040106_4.1.6-040106.201508170230_all.deb > /dev/null 2>&1
-         echo "Downloading Kernel 4.1.6 generic ......."; wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.1.6-unstable/linux-headers-4.1.6-040106-generic_4.1.6-040106.201508170230_amd64.deb > /dev/null 2>&1
-         echo "Downloading Kernel 4.1.6 image ........."; wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.1.6-unstable/linux-image-4.1.6-040106-generic_4.1.6-040106.201508170230_amd64.deb > /dev/null 2>&1
-         echo "Installing new Kernel now .............."; dpkg -i linux-headers-4.1.6*.deb linux-image-4.1.6*.deb > /dev/null 2>&1
-     fi
-     printf "${COLOR_GREEN}Kernel Upgrade - Complete${COLOR_RESET}\n"
+     #if [ $DISTRIB_KERNEL_VERSION = "4.1.6-040106" ]
+     #	 then echo "Kernel is already up to date, version = 4.1.6-040106"
+     #else
+     #    echo "Downloading Kernel 4.1.6 headers ......."; wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.1.6-unstable/linux-headers-4.1.6-040106_4.1.6-040106.201508170230_all.deb > /dev/null 2>&1
+     #    echo "Downloading Kernel 4.1.6 generic ......."; wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.1.6-unstable/linux-headers-4.1.6-040106-generic_4.1.6-040106.201508170230_amd64.deb > /dev/null 2>&1
+     #    echo "Downloading Kernel 4.1.6 image ........."; wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.1.6-unstable/linux-image-4.1.6-040106-generic_4.1.6-040106.201508170230_amd64.deb > /dev/null 2>&1
+     #    echo "Installing new Kernel now .............."; dpkg -i linux-headers-4.1.6*.deb linux-image-4.1.6*.deb > /dev/null 2>&1
+     #fi
+     #printf "${COLOR_GREEN}Kernel Upgrade - Complete${COLOR_RESET}\n"
      echo "Tidying up ............................."; apt-get -y autoremove > /dev/null 2>&1
 printf "==========================${COLOR_PURPLE}Installation${COLOR_RESET}===============================\n"
 printf "==========================${COLOR_PURPLE}FINISHED${COLOR_RESET}===============================\n"
