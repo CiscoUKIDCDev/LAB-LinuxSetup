@@ -82,6 +82,7 @@ printf "==========================${COLOR_PURPLE}Installing${COLOR_RESET}=======
      echo "Installing bower-installer ............."; npm install -g bower-installer > /dev/null 2>&1
      echo "Installing ntfs-3g ....................."; apt-get install -y ntfs-3g > /dev/null
      echo "Installing vsftpd ......................"; apt-get install -y vsftpd > /dev/null
+     echo "Installing debsums ....................."; apt-get install -y debsums > /dev/null
      echo "Installing telnet ......................"; apt-get install -y telnet > /dev/null
      echo "Installing fail2ban ...................."; apt-get install -y fail2ban > /dev/null
      echo "Installing ntp ........................."; apt-get install -y ntp > /dev/null
