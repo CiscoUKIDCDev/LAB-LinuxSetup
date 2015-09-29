@@ -103,11 +103,17 @@ printf "==========================${COLOR_LIGHT_PURPLE}Config Files${COLOR_NC}==
      sed -i -e "s/anonymous_enable=YES/anonymous_enable=NO/g" $FILE
      sed -i -e "s/local_enable=NO/local_enable=YES/g" $FILE
      sed -i -e "s/write_enable=NO/write_enable=YES/g" $FILE
+     sed -i -e "s/#write_enable=YES/write_enable=YES/g" $FILE
      sed -i -e "s/chroot_local_user=NO/chroot_local_user=YES/g" $FILE
      sed -i -e "s/#chroot_local_user=YES/chroot_local_user=YES/g" $FILE
      sed -i -e "s/local_umask=022/local_umask=0002/g" $FILE
+     sed -i -e "s/#local_umask=0002/local_umask=0002/g" $FILE
      sed -i -e "s/#anon_upload_enable=YES/anon_upload_enable=YES/g" $FILE
      sed -i -e "s/#anon_mkdir_write_enable=YES/anon_mkdir_write_enable=YES/g" $FILE
+     if( grep -Rq "local_root=/var/data" $FILE )
+     	then echo "FTP Root directory already set"
+     	else echo "local_root=/var/data" >> $FILE
+     fi
      if( grep -Rq "file_open_mode=0777" $FILE )
          then echo "File Mode already set"
          else echo "file_open_mode=0777" >> $FILE
