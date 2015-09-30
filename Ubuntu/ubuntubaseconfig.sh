@@ -136,7 +136,7 @@ printf "==========================${COLOR_LIGHT_PURPLE}Config Files${COLOR_NC}==
      echo "Copying fail2ban confiure file ........."; rm $FILE > /dev/null 2>&1; cp /etc/fail2ban/jail.conf $FILE > /dev/null 2>&1
      echo "Changing permissions for docker-compose."; chmod +x /usr/local/bin/docker-compose
      
-     FILE=/root/.bowerrc
+     FILE=~/.bowerrc
      echo "Setting bower customisations ..........."
      echo '{ "allow_root": true }' > $FILE
 
