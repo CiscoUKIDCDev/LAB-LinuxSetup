@@ -150,6 +150,7 @@ printf "==========================${COLOR_PURPLE}Creating files and folders${COL
      echo "Setting gid for directory .............."; chmod g+s /var/www
      echo "Setting default group access ..........."; setfacl -d -m g::rwx /var/www
      echo "Setting default other group access ....."; setfacl -d -m o::rwx /var/www
+     echo "Linking node binary ...................."; sudo ln -s /usr/bin/nodejs /usr/bin/node > /dev/null 2>&1
      printf "${COLOR_GREEN}Creating files and folders - Complete${COLOR_RESET}\n"
 
 printf "==========================${COLOR_PURPLE}Setting aliases${COLOR_RESET}============================\n"
